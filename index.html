@@ -120,10 +120,9 @@
     let originalText = textArea.innerText.trim();
     let recognition, mediaRecorder, audioChunks = [], audioUrl = null, fullTranscript = "", startTime, stream;
 
-    // Speech Recognition Initialization
     if ('webkitSpeechRecognition' in window || 'speechRecognition' in window) {
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        recognition = new SpeechRecognition();
+        const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRec();
         recognition.continuous = true;
         recognition.interimResults = true;
         recognition.lang = 'en-US';
@@ -133,9 +132,9 @@
             let currentFull = "";
             for (let i = 0; i < event.results.length; ++i) {
                 if (event.results[i].isFinal) {
-                    currentFull += event.results[i][0].transcript + " ";
+                    currentFull += event.results[i].transcript + " ";
                 } else {
-                    interim += event.results[i][0].transcript;
+                    interim += event.results[i].transcript;
                 }
             }
             fullTranscript = currentFull + interim;
@@ -157,21 +156,16 @@
         audioChunks = [];
         resultPanel.style.display = "none";
         replayBtn.style.display = "none";
-
+        
         try {
-            // Mobil va kompyuter uchun mikrofon so'rovi
             stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            
-            // MediaRecorder sozlash
             mediaRecorder = new MediaRecorder(stream);
             mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
             mediaRecorder.onstop = () => {
-                const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-                audioUrl = URL.createObjectURL(audioBlob);
+                audioUrl = URL.createObjectURL(new Blob(audioChunks, { type: 'audio/wav' }));
                 replayBtn.style.display = "flex";
             };
 
-            // Bir vaqtda ikkalasini boshlash
             mediaRecorder.start();
             if (recognition) recognition.start();
             
@@ -182,8 +176,7 @@
             textArea.classList.add('recording-active');
             msg.innerText = "Speak now...";
         } catch (err) { 
-            alert("Mic access denied. Please use HTTPS or check browser settings."); 
-            console.error(err);
+            alert("Mic access denied. Please use HTTPS and allow microphone."); 
         }
     };
 
@@ -191,18 +184,21 @@
         if (recognition) recognition.stop();
         if (mediaRecorder && mediaRecorder.state !== "inactive") mediaRecorder.stop();
         
-        // Mikrofonni butunlay o'chirish (mobil xavfsizlik uchun)
-        if (stream) {
-            stream.getTracks().forEach(track => track.stop());
-        }
-
         const duration = (Date.now() - startTime) / 60000;
         stopBtn.style.display = "none";
         startBtn.style.display = "flex";
         recDot.style.display = "none";
         textArea.classList.remove('recording-active');
-        msg.innerText = "Processing...";
-        setTimeout(() => calculateResults(duration), 800);
+        msg.innerText = "Processing final results...";
+
+        // MUHIM: Mobil brauzer oxirgi so'zlarni tahlil qilib ulgurishi uchun kutamiz
+        setTimeout(() => {
+            calculateResults(duration);
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+            }
+            msg.innerText = "Analysis Ready!";
+        }, 1500);
     };
 
     function calculateResults(duration) {
@@ -229,7 +225,7 @@
             };
 
             if (homophones[w1] && homophones[w1].includes(w2)) return true;
-            if (homophones[w2] && homophones[w2].includes(w1)) return true;
+            if (homophones[w2] && homophones[w2].includes(s1)) return true;
             if (w1.endsWith('ed') && w1.slice(0, -2) === w2) return true;
             if (w2.endsWith('ed') && w2.slice(0, -2) === w1) return true;
             if (w1.endsWith('s') && w1.slice(0, -1) === w2) return true;
@@ -276,8 +272,8 @@
         });
 
         const accuracy = Math.min(100, Math.round((correct / totalWords) * 100));
-        const userWordCount = fullTranscript.trim().split(/\s+/).filter(w => w.length > 0).length;
-        const wpm = Math.round(userWordCount / duration) || 0;
+        const userWordsTotal = fullTranscript.trim().split(/\s+/).filter(w => w.length > 0).length;
+        const wpm = Math.round(userWordsTotal / duration) || 0;
 
         let level = "A1";
         if (accuracy >= 90 && wpm >= 120) level = "C1 (Advanced)";
@@ -292,7 +288,6 @@
         analysisText.innerHTML = finalHtml;
         resultPanel.style.display = "block";
         summaryText.innerText = accuracy > 0 ? "Good job! Review your analysis below." : "Voice not recognized. Please try again.";
-        msg.innerText = "Analysis Ready!";
     }
 
     replayBtn.onclick = () => { if (audioUrl) new Audio(audioUrl).play(); };
