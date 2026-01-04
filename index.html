@@ -3,63 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google" content="notranslate">
     <title>Xurshid's Reading Practice</title>
     <style>
-        :root { --primary: #4361ee; --dark-blue: #1a237e; --success: #2ecc71; --error: #e74c3c; --bg: #f4f7fe; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); display: flex; flex-direction: column; align-items: center; padding: 20px; user-select: none; }
-        .author-badge { width: 100%; max-width: 800px; text-align: right; color: var(--dark-blue); font-weight: 700; font-size: 14px; margin-bottom: 10px; text-transform: uppercase; }
-        .container { background: white; max-width: 800px; width: 100%; padding: 40px; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
-        .main-title { text-align: center; color: var(--primary); margin-bottom: 20px; font-size: 28px; font-weight: 800; }
-        .notranslate { font-size: 22px; line-height: 1.8; padding: 30px; background: #fff; border-radius: 16px; margin-bottom: 25px; border: 2px solid #f0f4f8; white-space: pre-wrap; word-wrap: break-word; }
-        .recording-active { border-color: var(--error); box-shadow: 0 0 20px rgba(231, 76, 60, 0.2); }
-        .rec-dot { display: inline-block; width: 12px; height: 12px; background-color: var(--error); border-radius: 50%; margin-right: 8px; animation: blink 1s infinite; display: none; }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-        .controls { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; }
-        button { padding: 14px 28px; font-size: 16px; cursor: pointer; border-radius: 12px; border: none; color: white; font-weight: 600; display: flex; align-items: center; gap: 10px; transition: 0.3s; }
-        .btn-listen { background: #8e9aaf; }
-        .btn-start { background: var(--primary); }
-        .btn-stop { background: var(--error); display: none; }
+        :root { --p: #4361ee; --s: #2ecc71; --e: #e74c3c; --bg: #f4f7fe; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        .container { background: white; max-width: 800px; width: 100%; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .notranslate { font-size: 20px; line-height: 1.6; padding: 20px; border: 2px solid #eee; border-radius: 15px; margin-bottom: 20px; }
+        .controls { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        button { padding: 12px 20px; border-radius: 10px; border: none; color: white; font-weight: 600; cursor: pointer; }
+        .btn-start { background: var(--p); }
+        .btn-stop { background: var(--e); display: none; }
         .btn-replay { background: #ff9f1c; display: none; }
-        #msg { font-weight: 600; color: var(--primary); text-align: center; min-height: 30px; }
-        .result-panel { margin-top: 30px; display: none; padding: 30px; border-radius: 20px; background: #fff; border: 2px solid #eef2f6; text-align: center; width: 100%; box-sizing: border-box; }
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
-        .stat-card { padding: 15px; background: var(--bg); border-radius: 12px; }
-        .stat-val { font-size: 20px; font-weight: 800; color: var(--primary); }
-        .stat-lbl { font-size: 11px; color: #7f8c8d; text-transform: uppercase; }
-        .word-correct { color: var(--success); } 
-        .word-error { color: var(--error); text-decoration: underline wavy; }
-        #analysis-text { display: none; text-align: left; line-height: 2.2; margin-top: 25px; padding: 20px; background: #f9f9f9; border-radius: 12px; border: 1px dashed #ccc; font-size: 20px; }
+        .result-panel { display: none; margin-top: 20px; text-align: center; }
+        .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .stat-card { background: var(--bg); padding: 10px; border-radius: 10px; }
+        .word-correct { color: var(--s); }
+        .word-error { color: var(--e); text-decoration: underline; }
     </style>
 </head>
 <body>
 
-<div class="author-badge">Prepared by Xurshid Jabborov</div>
-
 <div class="container">
-    <div class="main-title">Reading Practice</div>
+    <h2 style="text-align:center; color:var(--p)">Read the text</h2>
     <div id="text-area" class="notranslate">Last summer, my family and I went to a small village near the mountains. It was a very beautiful place with fresh air and green trees. Every morning, we woke up early and had a big breakfast. We ate fresh bread, honey, and fruit. After breakfast, we went for long walks. One day, we saw a clear lake and decided to swim. The water was a bit cold, but it was very exciting. In the afternoons, I read my favorite books or talked to the local people. They were very friendly and told us interesting stories about the history of the village. In the evenings, we cooked dinner together over a fire. We stayed there for one week. I felt very happy and relaxed because there was no noise from the city. I want to go back there again next year with my best friends.</div>
 
     <div class="controls">
-        <button id="listen-btn" class="btn-listen">🔊 Listen</button>
         <button id="start-btn" class="btn-start">🎤 Start Reading</button>
-        <button id="stop-btn" class="btn-stop">⏹ Stop & Check</button>
+        <button id="stop-btn" class="btn-stop">⏹ Stop & Analyze</button>
         <button id="replay-btn" class="btn-replay">🎧 Play My Voice</button>
     </div>
 
-    <div id="msg-container">
-        <span id="rec-dot" class="rec-dot"></span>
-        <span id="msg"></span>
-    </div>
+    <p id="status" style="text-align:center; font-weight:bold; color:var(--p)"></p>
 
     <div id="result-panel" class="result-panel">
-        <div class="stats-grid">
-            <div class="stat-card"><div id="score" class="stat-val">0%</div><div class="stat-lbl">Accuracy</div></div>
-            <div class="stat-card"><div id="cefr-lvl" class="stat-val">-</div><div class="stat-lbl">Level</div></div>
-            <div class="stat-card"><div id="wpm" class="stat-val">0</div><div class="stat-lbl">WPM</div></div>
+        <div class="stats">
+            <div class="stat-card"><h3>Accuracy</h3><div id="score" style="font-size:24px; color:var(--p)">0%</div></div>
+            <div class="stat-card"><h3>WPM</h3><div id="wpm" style="font-size:24px; color:var(--p)">0</div></div>
         </div>
-        <button id="show-analysis-btn" style="margin: 20px auto 0; background:var(--dark-blue); font-size:13px;">🔍 Show Detailed Analysis</button>
-        <div id="analysis-text" class="notranslate"></div>
+        <div id="analysis-text" class="notranslate" style="margin-top:20px; text-align:left; display:none"></div>
+        <button id="show-btn" style="background:#1a237e; margin-top:10px">🔍 Show Details</button>
     </div>
 </div>
 
@@ -67,139 +49,99 @@
     const startBtn = document.getElementById('start-btn'),
           stopBtn = document.getElementById('stop-btn'),
           replayBtn = document.getElementById('replay-btn'),
-          listenBtn = document.getElementById('listen-btn'),
-          msg = document.getElementById('msg'),
-          textArea = document.getElementById('text-area'),
-          resultPanel = document.getElementById('result-panel'),
-          analysisText = document.getElementById('analysis-text');
+          status = document.getElementById('status'),
+          scoreDisp = document.getElementById('score'),
+          wpmDisp = document.getElementById('wpm'),
+          analysisText = document.getElementById('analysis-text'),
+          resultPanel = document.getElementById('result-panel');
 
-    let recognition, mediaRecorder, audioChunks = [], audioUrl = null, fullTranscript = "", startTime, stream;
-    const originalText = textArea.innerText.trim();
+    let recognition, mediaRecorder, audioChunks = [], audioUrl = null, fullTranscript = "", startTime;
+    const originalText = document.getElementById('text-area').innerText.trim();
 
-    // Nutqni aniqlash ob'ektini yaratish
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (SpeechRecognition) {
-        recognition = new SpeechRecognition();
+    if ('webkitSpeechRecognition' in window) {
+        recognition = new webkitSpeechRecognition();
         recognition.continuous = true;
         recognition.interimResults = true;
         recognition.lang = 'en-US';
-
-        recognition.onresult = (event) => {
-            let interimText = "";
-            for (let i = event.resultIndex; i < event.results.length; ++i) {
-                if (event.results[i].isFinal) {
-                    fullTranscript += event.results[i][0].transcript + " ";
-                } else {
-                    interimText += event.results[i][0].transcript;
-                }
-            }
-            msg.innerText = "Listening: " + (interimText || "...");
+        recognition.onresult = (e) => {
+            let txt = "";
+            for (let i = 0; i < e.results.length; i++) txt += e.results[i][0].transcript + " ";
+            fullTranscript = txt;
         };
     }
 
     startBtn.onclick = async () => {
         try {
-            // MUHIM: Bitta mikrofon oqimini ham Recorder, ham Recognition uchun ishlatamiz
-            stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            
-            fullTranscript = "";
-            audioChunks = [];
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            audioChunks = []; fullTranscript = "";
             resultPanel.style.display = "none";
-            replayBtn.style.display = "none";
             analysisText.style.display = "none";
 
-            // 1. Ovoz yozishni sozlash
             mediaRecorder = new MediaRecorder(stream);
-            mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
+            mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
             mediaRecorder.onstop = () => {
-                const blob = new Blob(audioChunks, { type: 'audio/wav' });
-                audioUrl = URL.createObjectURL(blob);
-                replayBtn.style.display = "flex";
+                audioUrl = URL.createObjectURL(new Blob(audioChunks, { type: 'audio/wav' }));
+                replayBtn.style.display = "inline-block";
             };
 
-            // 2. Bir vaqtda ishga tushirish (Telefonda barqarorlik uchun tartib)
             mediaRecorder.start();
-            if (recognition) recognition.start();
-
+            recognition.start();
+            
             startTime = Date.now();
             startBtn.style.display = "none";
-            stopBtn.style.display = "flex";
-            document.getElementById('rec-dot').style.display = "inline-block";
-            textArea.classList.add('recording-active');
-            msg.innerText = "Speak now...";
-        } catch (err) {
-            alert("Microphone access error. Please use HTTPS.");
-        }
+            stopBtn.style.display = "inline-block";
+            status.innerText = "Recording and Analyzing...";
+        } catch (e) { alert("Mic error. Use HTTPS."); }
     };
 
     stopBtn.onclick = () => {
-        if (recognition) recognition.stop();
-        if (mediaRecorder && mediaRecorder.state !== "inactive") mediaRecorder.stop();
-        
+        recognition.stop();
+        mediaRecorder.stop();
         const duration = (Date.now() - startTime) / 60000;
         
         stopBtn.style.display = "none";
-        startBtn.style.display = "flex";
-        document.getElementById('rec-dot').style.display = "none";
-        textArea.classList.remove('recording-active');
-        msg.innerText = "Analyzing your speech...";
+        startBtn.style.display = "inline-block";
+        status.innerText = "Processing results...";
 
-        // Telefonda oxirgi natijalarni kutish
         setTimeout(() => {
-            calculateResults(duration);
-            if (stream) stream.getTracks().forEach(track => track.stop());
-            msg.innerText = "Analysis Complete!";
-        }, 1200);
+            if (!fullTranscript.trim()) {
+                status.innerText = "Error: No speech detected. Please try again in Chrome/Safari.";
+            } else {
+                calculate(duration);
+                status.innerText = "Done!";
+            }
+        }, 1500);
     };
 
-    function calculateResults(duration) {
-        const cleanUser = fullTranscript.toLowerCase().replace(/[.,!?;]/g, "").split(/\s+/).filter(w => w.length > 0);
-        const wordsInOrig = originalText.split(/(\s+)/);
-        let finalHtml = "", correct = 0, totalWords = 0;
+    function calculate(duration) {
+        const userWords = fullTranscript.toLowerCase().match(/\b(\w+)\b/g) || [];
+        const origWords = originalText.split(/(\s+)/);
+        let html = "", correct = 0, total = 0;
 
-        wordsInOrig.forEach(part => {
-            if (/\s+/.test(part)) {
-                finalHtml += part;
-            } else {
-                totalWords++;
-                let cleanPart = part.toLowerCase().replace(/[.,!?;]/g, "");
-                
-                // Telefonda aniqlash biroz xato bo'lishi mumkinligini hisobga olgan moslashuvchan qidiruv
-                let foundIndex = cleanUser.findIndex(u => 
-                    u === cleanPart || 
-                    (u.length > 3 && cleanPart.includes(u)) || 
-                    (cleanPart.length > 3 && u.includes(cleanPart))
-                );
-
-                if (foundIndex !== -1) {
+        origWords.forEach(word => {
+            if (/\s+/.test(word)) html += word;
+            else {
+                total++;
+                let clean = word.toLowerCase().replace(/[.,!?;]/g, "");
+                let idx = userWords.indexOf(clean);
+                if (idx !== -1) {
                     correct++;
-                    finalHtml += `<span class="word-correct">${part}</span>`;
-                    cleanUser.splice(foundIndex, 1);
+                    html += `<span class="word-correct">${word}</span>`;
+                    userWords.splice(idx, 1);
                 } else {
-                    finalHtml += `<span class="word-error">${part}</span>`;
+                    html += `<span class="word-error">${word}</span>`;
                 }
             }
         });
 
-        const acc = Math.round((correct / totalWords) * 100);
-        document.getElementById('score').innerText = acc + "%";
-        document.getElementById('wpm').innerText = Math.round((fullTranscript.split(/\s+/).length) / duration) || 0;
-        document.getElementById('cefr-lvl').innerText = acc > 85 ? "C1" : acc > 70 ? "B2" : acc > 50 ? "B1" : "A2";
-        analysisText.innerHTML = finalHtml;
+        scoreDisp.innerText = Math.round((correct / total) * 100) + "%";
+        wpmDisp.innerText = Math.round(total / duration) || 0;
+        analysisText.innerHTML = html;
         resultPanel.style.display = "block";
     }
 
-    listenBtn.onclick = () => {
-        window.speechSynthesis.cancel();
-        const utter = new SpeechSynthesisUtterance(originalText);
-        utter.lang = 'en-US';
-        window.speechSynthesis.speak(utter);
-    };
-
-    replayBtn.onclick = () => { if (audioUrl) new Audio(audioUrl).play(); };
-    document.getElementById('show-analysis-btn').onclick = () => {
-        analysisText.style.display = analysisText.style.display === "block" ? "none" : "block";
-    };
+    document.getElementById('show-btn').onclick = () => analysisText.style.display = "block";
+    replayBtn.onclick = () => { if(audioUrl) new Audio(audioUrl).play(); };
 </script>
 </body>
 </html>
